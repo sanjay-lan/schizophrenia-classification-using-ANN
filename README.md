@@ -1,0 +1,1 @@
+# schizophrenia-classification-using-ANN
