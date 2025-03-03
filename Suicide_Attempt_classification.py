@@ -1,5 +1,6 @@
 
 !pip install tensorflow
+!pip install boruta
 
 import tensorflow as tf
 print("Tensorflow version " + tf.__version__)
@@ -39,10 +40,30 @@ dataset = df_balanced.sample(frac=1).reset_index(drop=True)
 
 
 # For Suicide_Attempt classification divide the dataset into independent and dependent features
-X = dataset.drop(columns=['Patient_ID', 'Age', 'Gender','Education_Level', 'Suicide_Attempt', 'Hospitalization', 'Social_Support','Suicide_Attempt', 'Medication_Adherence', ])
+X1 = dataset.drop(columns=['Patient_ID', 'Suicide_Attempt'])
+y1 = dataset['Suicide_Attempt']
+from sklearn.model_selection import train_test_split
+X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.2, random_state=42, shuffle=True)
+
+# feature selection and feature importance ranking in increasing order
+from boruta import BorutaPy
+from sklearn.ensemble import RandomForestClassifier
+x_features = list(X1.columns)
+
+model = RandomForestClassifier(n_jobs=-1, class_weight='balanced', max_depth=5)
+model.fit(X1_train, y1_train)
+
+boruta_selector = BorutaPy(model, n_estimators='auto', verbose=0, random_state=42)
+boruta_selector.fit(X1_train, y1_train)
+
+selected_rf_features = pd.DataFrame({'Feature': x_features, 'Ranking': boruta_selector.ranking_})
+a = selected_rf_features.sort_values(by='Ranking', ascending=True)
+print(a)
+a.to_csv("features.csv", index=False)
+
+
+X = dataset.drop(columns=['Patient_ID', 'Age', 'Gender','Education_Level', 'Suicide_Attempt', 'Marital_Status', 'Income_Level', 'Occupation', 'Live_Area', 'Hospitalization', 'Social_Support','Suicide_Attempt', 'Stress_Factors', 'Medication_Adherence'])
 y = dataset['Suicide_Attempt']
-
-
 X.head()
 
 # splitting the dataset
