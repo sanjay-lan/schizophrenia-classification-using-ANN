@@ -42,8 +42,6 @@ dataset = df_balanced.sample(frac=1).reset_index(drop=True)
 X = dataset.drop(columns=['Patient_ID', 'Age', 'Gender','Education_Level', 'Suicide_Attempt', 'Hospitalization', 'Social_Support','Suicide_Attempt', 'Medication_Adherence', ])
 y = dataset['Suicide_Attempt']
 
-# all the column names are here
-# 'Age', 'Gender', 'Education_Level', 'Marital_Status', 'Income_Level', 'Occupation', 'Live_Area', 'Family_History', 'Substance_Use', 'Positive_Symptom_Score',	'Negative_Symptom_Score',	'GAF_Score', 'Suicide_Attempt','Social_Support', 'Stress_Factors', 'Medication_Adherence', 'Disease_Duration', 'Hospitalization', 'Diagnosis'
 
 X.head()
 
