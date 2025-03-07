@@ -4,7 +4,7 @@ Schizophrenia is a chronic and severe mental disorder that affects a person's th
 
 ## Overview
 
-This project implements a classification model to predict schizophrenia diagnosis using an artificial neural network (ANN). The dataset is preprocessed, balanced, and trained using TensorFlow and Scikit-learn.
+This project implements a classification model to predict schizophrenia diagnosis and suicide attempts using an artificial neural network (ANN). The dataset is preprocessed, balanced, and trained using TensorFlow and Scikit-learn.
 
 ## Installation
 
@@ -14,21 +14,23 @@ Ensure you have TensorFlow installed before running the code.
 
 1. Importing Libraries
 
-      Essential libraries such as TensorFlow, NumPy, Pandas, Matplotlib, and Scikit-learn are imported to facilitate data processing, model training, and evaluation.
+      Essential libraries such as TensorFlow, NumPy, Pandas, Matplotlib, Boruta and Scikit-learn are imported to facilitate data processing, model training, and evaluation.
 
 2. Data Loading and Preprocessing
 
       The dataset is loaded and cleaned by removing unnecessary columns. The Disease_Duration column is dropped because it has a lots of wrong information.
       
-      The Diagnosis column is balanced to ensure equal representation of classes.
+      For Diagnosis classification the Diagnosis column is balanced to ensure equal representation of classes.
+
+      For Suicide Attempt classification the Suicide Attempt column is balanced to ensure equal representation of classes.
       
-      Features are selected and split into independent (X) and dependent (y) variables.
+      Features are selected by using boruta feature selection technique and split into independent (X) and dependent (y) variables.
       
       The dataset is split into training and testing sets.
       
       Feature scaling is applied to normalize the data.
 
-3. Model Building and Training
+4. Model Building and Training
 
       An ANN model is initialized using the Sequential API.
       
@@ -40,7 +42,7 @@ Ensure you have TensorFlow installed before running the code.
       
       The model is trained using the training data with validation.
 
-4. Model Evaluation
+5. Model Evaluation
 
       The model's performance is evaluated using various metrics such as accuracy, precision, recall, and F1-score.
       
@@ -48,7 +50,7 @@ Ensure you have TensorFlow installed before running the code.
       
       A confusion matrix is generated to assess classification results.
 
-5. Performance Metrics and Visualization
+6. Performance Metrics and Visualization
 
       The ROC curve is plotted to compare true positive and false positive rates.
   
@@ -58,4 +60,4 @@ Ensure you have TensorFlow installed before running the code.
 
 ## Conclusion
 
-This project successfully implements an ANN model to classify schizophrenia diagnosis. The model is evaluated using multiple performance metrics and visualized through various plots.
+This project successfully implements an ANN model to classify schizophrenia diagnosis with 100% accuracy and suicide attempt with 90% accuracy. The model is evaluated using multiple performance metrics and visualized through various plots. The results and graphs are stored in the results folder.
