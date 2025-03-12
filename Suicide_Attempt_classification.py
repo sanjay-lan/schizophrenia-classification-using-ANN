@@ -53,15 +53,17 @@ x_features = list(X1.columns)
 model = RandomForestClassifier(n_jobs=-1, class_weight='balanced', max_depth=5)
 model.fit(X1_train, y1_train)
 
+# usingBorutaPy for feature selection (wrapper method)
 boruta_selector = BorutaPy(model, n_estimators='auto', verbose=0, random_state=42)
 boruta_selector.fit(X1_train, y1_train)
 
+# Selected features are stored in selected_rf_features
 selected_rf_features = pd.DataFrame({'Feature': x_features, 'Ranking': boruta_selector.ranking_})
 a = selected_rf_features.sort_values(by='Ranking', ascending=True)
 print(a)
 a.to_csv("features.csv", index=False)
 
-
+# keeping the highest important features in X
 X = dataset.drop(columns=['Patient_ID', 'Age', 'Gender','Education_Level', 'Suicide_Attempt', 'Marital_Status', 'Income_Level', 'Occupation', 'Live_Area', 'Hospitalization', 'Social_Support','Suicide_Attempt', 'Stress_Factors', 'Medication_Adherence'])
 y = dataset['Suicide_Attempt']
 X.head()
@@ -76,6 +78,7 @@ sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
+# to print the training dataset size
 X_train.shape
 
 # ANN
@@ -88,11 +91,11 @@ from tensorflow.keras.optimizers import Adam
 
 #  ANN initialization
 classifier = Sequential([
-    Dense(11, activation='relu', input_shape=(X_train.shape[1],)),
-    Dense(5, activation='relu'),
-    Dropout(0.2),
-    Dense(2, activation='relu'),
-    Dense(1, activation='sigmoid')
+    Dense(11, activation='relu', input_shape=(X_train.shape[1],)),  # input layer
+    Dense(5, activation='relu'),    # middle layer 1
+    Dropout(0.2),                   # 20% node dropout to avoid over fitting
+    Dense(2, activation='relu'),    # middle layer 2
+    Dense(1, activation='sigmoid')  # output layer for binary classification
 
 ])
 
